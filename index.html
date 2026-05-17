@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Онлайн-калькулятор расхода материалов и стоимости резиновых СБР-покрытий для площадок и спортивных объектов." />
+  <title>СБР Калькулятор — резиновые покрытия</title>
+  <script>
+    (function () {
+      try {
+        if (localStorage.getItem("sbr-calculator-theme") === "dark") {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="assets/css/theme.css" />
+  <link rel="stylesheet" href="assets/css/landing.css" />
+</head>
+<body>
+  <nav class="site-nav" aria-label="Основная навигация">
+    <a class="site-nav__brand" href="index.html">СБР Калькулятор</a>
+    <div class="site-nav__links">
+      <a class="site-nav__link" href="index.html" aria-current="page">Главная</a>
+      <a class="site-nav__link site-nav__link--primary" href="calculator/index.html">Открыть калькулятор</a>
+    </div>
+  </nav>
+
+  <button type="button" class="theme-toggle" id="themeToggle" aria-label="Переключить тему" title="Переключить тему">
+    <span class="theme-toggle__icon" aria-hidden="true">🌙</span>
+    <span class="theme-toggle__text">Тёмная тема</span>
+  </button>
+
+  <header class="hero">
+    <p class="hero__badge">Бесплатный онлайн-инструмент</p>
+    <h1 class="hero__title">
+      Калькулятор <span>резиновых СБР-покрытий</span>
+    </h1>
+    <p class="hero__lead">
+      Быстро посчитайте расход чёрной и окрашенной крошки, пигмента, клея, праймера и скипидара —
+      а также итоговую смету с ценой за квадратный метр. Подходит для смет, коммерческих предложений и планирования закупок.
+    </p>
+    <div class="hero__actions">
+      <a class="btn btn--large" href="calculator/index.html">Перейти к расчёту</a>
+      <a class="btn btn--large btn--outline" href="#features">Узнать возможности</a>
+    </div>
+  </header>
+
+  <section class="features" id="features" aria-labelledby="features-title">
+    <h2 class="features__title" id="features-title">Что умеет калькулятор</h2>
+    <div class="features__grid">
+      <article class="feature-card">
+        <div class="feature-card__icon" aria-hidden="true">📐</div>
+        <h3>Гибкий ввод площади</h3>
+        <p>Укажите площадь вручную или рассчитайте её по длине и ширине участка — удобно для прямоугольных площадок.</p>
+      </article>
+      <article class="feature-card">
+        <div class="feature-card__icon" aria-hidden="true">🎨</div>
+        <h3>Один или два слоя</h3>
+        <p>Режим с одним слоем (чёрная крошка) или с окрашенным верхним слоем, пигментом и отдельными нормами расхода.</p>
+      </article>
+      <article class="feature-card">
+        <div class="feature-card__icon" aria-hidden="true">💰</div>
+        <h3>Смета и Excel</h3>
+        <p>Итоговая таблица материалов и работ, цена за м² и выгрузка результата в файл Excel одним нажатием.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="steps" aria-labelledby="steps-title">
+    <h2 class="steps__title" id="steps-title">Как пользоваться</h2>
+    <ol class="steps__list">
+      <li class="steps__item">
+        <div>
+          <strong>Задайте площадь и слои</strong>
+          <span>Выберите способ расчёта площади, толщину слоёв и процент запаса материала.</span>
+        </div>
+      </li>
+      <li class="steps__item">
+        <div>
+          <strong>Укажите цены</strong>
+          <span>Введите стоимость крошки, клея, скипидара и работ — все значения можно изменить под ваш прайс.</span>
+        </div>
+      </li>
+      <li class="steps__item">
+        <div>
+          <strong>Получите смету</strong>
+          <span>Калькулятор мгновенно пересчитывает количество и сумму; при необходимости скачайте отчёт в Excel.</span>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <footer class="site-footer">
+    <p>
+      СБР калькулятор резиновых покрытий ·
+      <a href="calculator/index.html">Открыть калькулятор</a>
+    </p>
+  </footer>
+
+  <script src="assets/js/theme.js"></script>
+</body>
+</html>
