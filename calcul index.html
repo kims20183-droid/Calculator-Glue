@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Калькулятор расхода СБР-крошки, клея, праймера и стоимости резинового покрытия." />
+  <title>Калькулятор — СБР резиновые покрытия</title>
+  <script>
+    (function () {
+      try {
+        if (localStorage.getItem("sbr-calculator-theme") === "dark") {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="../assets/css/theme.css" />
+  <link rel="stylesheet" href="../assets/css/calculator.css" />
+</head>
+<body>
+  <nav class="site-nav" aria-label="Основная навигация">
+    <a class="site-nav__brand" href="../index.html">СБР Калькулятор</a>
+    <div class="site-nav__links">
+      <a class="site-nav__link" href="../index.html">Главная</a>
+      <a class="site-nav__link site-nav__link--primary" href="index.html" aria-current="page">Калькулятор</a>
+    </div>
+  </nav>
+
+  <button type="button" class="theme-toggle" id="themeToggle" aria-label="Переключить тему" title="Переключить тему">
+    <span class="theme-toggle__icon" aria-hidden="true">🌙</span>
+    <span class="theme-toggle__text">Тёмная тема</span>
+  </button>
+
+  <main class="calculator">
+    <h1 class="calculator__title">СБР калькулятор резиновых покрытий</h1>
+    <p class="calculator__subtitle">
+      Расчёт чёрной крошки, окрашенного слоя, пигмента, клея, праймера, скипидара и стоимости
+    </p>
+
+    <div class="calculator__grid">
+      <section class="card" aria-labelledby="inputs-heading">
+        <h2 id="inputs-heading">Исходные данные</h2>
+
+        <div class="form-group">
+          <label for="areaMode">Способ расчёта площади</label>
+          <select id="areaMode">
+            <option value="manual">Ввести площадь вручную</option>
+            <option value="size">Рассчитать по длине и ширине</option>
+          </select>
+        </div>
+
+        <div id="manualAreaBlock" class="form-group">
+          <label for="area">Площадь покрытия, м²</label>
+          <input id="area" type="number" value="100" min="0" step="0.01" />
+        </div>
+
+        <div id="sizeAreaBlock" class="hidden">
+          <div class="form-group">
+            <label for="length">Длина участка, м</label>
+            <input id="length" type="number" value="10" min="0" step="0.01" />
+          </div>
+          <div class="form-group">
+            <label for="width">Ширина участка, м</label>
+            <input id="width" type="number" value="10" min="0" step="0.01" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="layerType">Сколько слоёв покрытия?</label>
+          <select id="layerType">
+            <option value="one">1 слой — только чёрная СБР-крошка</option>
+            <option value="two">2 слоя — чёрная крошка + окрашенный слой</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="blackThickness">Толщина чёрного слоя, мм</label>
+          <input id="blackThickness" type="number" value="10" min="0" step="1" />
+        </div>
+
+        <div class="form-group">
+          <label for="blackCrumbRate">Расход чёрной СБР-крошки на 1 м² при 10 мм, кг</label>
+          <input id="blackCrumbRate" type="number" value="7" min="0" step="0.1" />
+        </div>
+
+        <div id="colorLayerBlock" class="hidden">
+          <div class="form-group">
+            <label for="colorThickness">Толщина окрашенного слоя, мм</label>
+            <input id="colorThickness" type="number" value="10" min="0" step="1" />
+          </div>
+          <div class="form-group">
+            <label for="colorCrumbRate">Расход крошки окрашенного слоя на 1 м² при 10 мм, кг</label>
+            <input id="colorCrumbRate" type="number" value="7" min="0" step="0.1" />
+          </div>
+          <div class="form-group">
+            <label for="pigmentRate">Расход пигмента, кг/м²</label>
+            <input id="pigmentRate" type="number" value="0.3" min="0" step="0.01" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="glueRate">Расход клея на 1 м² при толщине 10 мм, кг</label>
+          <input id="glueRate" type="number" value="1.6" min="0" step="0.01" />
+          <p class="hint">
+            Расход считается автоматически пропорционально общей толщине покрытия.
+            Например: 10 мм = 1,6 кг/м², 20 мм = 3,2 кг/м².
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label for="primerGlueRate">Клей для праймера, кг/м²</label>
+          <input id="primerGlueRate" type="number" value="0.2" min="0" step="0.01" />
+        </div>
+
+        <div class="form-group">
+          <label for="turpentineRate">Скипидар для праймера, кг/м²</label>
+          <input id="turpentineRate" type="number" value="0.2" min="0" step="0.01" />
+        </div>
+
+        <div class="form-group">
+          <label for="reservePercent">Запас материала, %</label>
+          <input id="reservePercent" type="number" value="0" min="0" step="0.1" />
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="prices-heading">
+        <h2 id="prices-heading">Стоимость</h2>
+
+        <div class="form-group">
+          <label for="blackCrumbPrice">Цена чёрной СБР-крошки, ₽/кг</label>
+          <input id="blackCrumbPrice" type="number" value="45" min="0" step="0.01" />
+        </div>
+        <div class="form-group">
+          <label for="colorCrumbPrice">Цена крошки окрашенного слоя, ₽/кг</label>
+          <input id="colorCrumbPrice" type="number" value="45" min="0" step="0.01" />
+        </div>
+        <div class="form-group">
+          <label for="pigmentPrice">Цена пигмента, ₽/кг</label>
+          <input id="pigmentPrice" type="number" value="150" min="0" step="0.01" />
+        </div>
+        <div class="form-group">
+          <label for="gluePrice">Цена клея, ₽/кг</label>
+          <input id="gluePrice" type="number" value="350" min="0" step="0.01" />
+        </div>
+        <div class="form-group">
+          <label for="turpentinePrice">Цена скипидара, ₽/кг</label>
+          <input id="turpentinePrice" type="number" value="160" min="0" step="0.01" />
+        </div>
+        <div class="form-group">
+          <label for="workPrice">Стоимость работ, ₽/м²</label>
+          <input id="workPrice" type="number" value="0" min="0" step="0.01" />
+        </div>
+        <div class="form-group">
+          <label for="extraCost">Дополнительные расходы, ₽</label>
+          <input id="extraCost" type="number" value="0" min="0" step="0.01" />
+        </div>
+
+        <button type="button" class="btn" id="calcBtn">Рассчитать</button>
+        <button type="button" class="btn btn-green" id="excelBtn">Скачать результат в Excel</button>
+        <button type="button" class="btn btn-secondary" id="resetBtn">Сбросить значения</button>
+      </section>
+    </div>
+
+    <section class="card card--results" aria-labelledby="results-heading">
+      <h2 id="results-heading">Итоговая таблица расчёта</h2>
+
+      <div class="summary">
+        <div class="summary-item">
+          <span>Площадь</span>
+          <strong id="summaryArea">0 м²</strong>
+        </div>
+        <div class="summary-item">
+          <span>Тип покрытия</span>
+          <strong id="summaryLayerType">—</strong>
+        </div>
+        <div class="summary-item">
+          <span>Общая толщина</span>
+          <strong id="summaryThickness">0 мм</strong>
+        </div>
+        <div class="summary-item">
+          <span>Цена за 1 м²</span>
+          <strong id="summaryPricePerM2">0 ₽</strong>
+        </div>
+      </div>
+
+      <table class="result-table">
+        <thead>
+          <tr>
+            <th>Материал / услуга</th>
+            <th>Количество, кг</th>
+            <th>Цена, ₽/кг</th>
+            <th>Сумма, ₽</th>
+          </tr>
+        </thead>
+        <tbody id="resultTableBody"></tbody>
+      </table>
+
+      <div class="total">
+        <span>Итоговая стоимость</span>
+        <span id="totalCost">0 ₽</span>
+      </div>
+
+      <div class="formula">
+        <strong>Формулы:</strong><br>
+        Чёрная крошка = площадь × расход крошки × толщина чёрного слоя / 10 × запас.<br>
+        Окрашенная крошка = площадь × расход крошки × толщина окрашенного слоя / 10 × запас.<br>
+        Пигмент = площадь × расход пигмента × запас.<br>
+        Клей = площадь × расход клея × общая толщина / 10 × запас.<br>
+        Клей для праймера = площадь × 0,2 кг/м² × запас.<br>
+        Скипидар для праймера = площадь × 0,2 кг/м² × запас.
+      </div>
+
+      <div class="notice">
+        Расход клея можно менять вручную в поле «Расход клея на 1 м² при толщине 10 мм».
+        Итоговый расход клея пересчитывается автоматически по общей толщине покрытия.
+      </div>
+    </section>
+  </main>
+
+  <script src="../assets/js/theme.js"></script>
+  <script src="../assets/js/calculator.js"></script>
+</body>
+</html>
